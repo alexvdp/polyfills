@@ -29,13 +29,20 @@ DOMTokenList.prototype = {
   item: function(index) {
     return this[index] || null;
   },
-  remove: function(token) {
-    if (!this.contains(token)) return;
-    for (var i = 0; i < this.length; i++) {
-      if (this[i] == token) break;
+  remove: function () {
+    // method modified to allow list of arguments
+    for (i = 0; i < arguments.length; i++) {
+      var token = arguments[i];
+
+      if (this.contains(token)) {
+        for (var i = 0; i < this.length; i++) {
+          if (this[i] === token)
+            break;
+        }
+        splice.call(this, i, 1);
+        this.el.className = this.toString();
+      }
     }
-    splice.call(this, i, 1);
-    this.el.className = this.toString();
   },
   toString: function() {
     return join.call(this, ' ');
